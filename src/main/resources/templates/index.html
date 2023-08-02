@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>MetaMate</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Impact
+  * Updated: May 30 2023 with Bootstrap v5.3.0
+  * Template URL: https://bootstrapmade.com/impact-bootstrap-business-website-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<section id="topbar" class="topbar d-flex align-items-center">
+  <div class="container d-flex justify-content-center justify-content-md-between">
+    <div class="contact-info d-flex align-items-center" th:if="${user != null}">
+      <i class="bi bi-envelope d-flex align-items-center"><a href="/messages/received"><span>받은 쪽지함</span></a></i>
+      <i class="bi bi-person d-flex align-items-center ms-4"><span th:text="${user.major}"></span><span th:text="${user.nickname}"></span><span>님 환영합니다.</span></i>
+    </div>
+
+    <div class="contact-info d-flex align-items-center" th:if="${user == null}">
+      <i class="bi bi-person-add d-flex align-items-center"><a href="/auth/join"><span>회원가입 신청</span></a></i>
+    </div>
+  </div>
+</section><!-- End Top Bar -->
+
+<header id="header" class="header d-flex align-items-center">
+
+  <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+    <a href="/" class="logo d-flex align-items-center">
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <!-- <img src="assets/img/logo.png" alt=""> -->
+      <h1>MetaMate<span>.</span></h1>
+    </a>
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#recent-posts">Board</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#about">About</a></li>
+        <li class="dropdown"><a href="#"><span>Easy Menu</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+          <ul>
+            <li><a href="/#hero">Home</a></li>
+            <li class="dropdown"><a href="/board/list"><span>Blog</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+              <ul>
+                <li><a href="/board/list">All Blog list</a></li>
+              </ul>
+            </li>
+            <li><a href="/#team">Team</a></li>
+            <li><a href="/#about">About</a></li>
+          </ul>
+        </li>
+        <!--마이페이지로 넘어가게 설정-->
+        <li th:if="${user != null}"><a href="/auth/edit">My Page</a></li>
+      </ul>
+    </nav><!-- .navbar -->
+
+    <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+    <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+  </div>
+</header><!-- End Header -->
+<!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="hero">
+  <div class="container position-relative">
+    <div class="row gy-5" data-aos="fade-in">
+      <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
+        <h2>Welcome to <span>MetaMate</span></h2>
+        <p>메타버스아카데미 커뮤니티에 오신 것을 환영합니다.</p>
+
+        <div class="d-flex justify-content-center justify-content-lg-start" th:if="${user == null}">
+          <button onclick="location.href='/auth/login';" type="button" class="btn-get-started">로그인</button>
+          <a href="https://www.youtube.com/watch?v=c5YdX588Tvo&pp=ygUY66mU7YOA67KE7Iqk7JWE7Lm0642w66-4" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+        </div>
+
+        <div class="d-flex justify-content-center justify-content-lg-start" th:if="${user != null}">
+          <button onclick="location.href='/auth/logout';" type="button" class="btn-get-started">로그아웃</button>
+          <a href="https://www.youtube.com/watch?v=c5YdX588Tvo&pp=ygUY66mU7YOA67KE7Iqk7JWE7Lm0642w66-4" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+        </div>
+        <br>
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+          <button onclick="location.href='/admin/members';" type="button" class="btn-get-started">관리자 페이지</button>
+        </div>
+
+      </div>
+      <div class="col-lg-6 order-1 order-lg-2">
+        <img src="assets/img/hero-img.svg" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="100">
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="icon-boxes position-relative">
+    <div class="container position-relative">
+      <div class="row gy-4 mt-5">
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-easel"></i></div>
+            <h4 class="title"><a href="/board/list" class="stretched-link">자유 게시판</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-gem"></i></div>
+            <h4 class="title"><a href="#team" class="stretched-link">프로젝트 모집 게시판</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-geo-alt"></i></div>
+            <h4 class="title"><a href="#testimonials" class="stretched-link">강사님 소개</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-command"></i></div>
+            <h4 class="title"><a href="#about" class="stretched-link">메타버스아카데미 란?</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+      </div>
+    </div>
+  </div>
+
+  </div>
+</section>
+<!-- End Hero Section -->
+
+<main id="main">
+  <!-- ======= Recent Board Posts Section ======= -->
+  <section id="recent-posts" class="recent-posts sections-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header" onclick="location.href='/board/list'">
+        <h2>자유 게시판</h2> <!--게사판 리스트로 갈 수 있게 설정-->
+        <p> 메타버스 아카데미의 일상을 공유하는 자유 게시판</p>
+      </div>
+
+      <div class="row gy-4">
+        <div class="col-xl-4 col-md-6">
+          <article>
+            <div class="post-img">
+              <img src="assets/img/testimonials/nam.jpg" alt="" class="img-fluid">
+            </div>
+            <p class="post-category">잡담</p>
+            <h2 class="title">
+              <a href="/board/list">서버개발 남효정님의 공부모습.jpg</a>
+            </h2>
+            <div class="d-flex align-items-center">
+              <img src="assets/img/blog/blog-author.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
+              <div class="post-meta">
+                <p class="post-author">정민호</p>
+                <p class="post-date">
+                  <time datetime="2022-01-01">Jun 1, 2023</time>
+                </p>
+              </div>
+            </div>
+          </article>
+        </div><!-- End post list item -->
+
+        <div class="col-xl-4 col-md-6">
+          <article>
+
+            <div class="post-img">
+              <img src="assets/img/blog/blog-2.jpg" alt="" class="img-fluid">
+            </div>
+
+            <p class="post-category">잡담</p>
+
+            <h2 class="title">
+              <a href="/board/list">???: 뚝딱뚝딱</a>
+            </h2>
+
+            <div class="d-flex align-items-center">
+              <img src="assets/img/blog/blog-author-2.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
+              <div class="post-meta">
+                <p class="post-author">깜찍이</p>
+                <p class="post-date">
+                  <time datetime="2022-01-01">July 22, 2023</time>
+                </p>
+              </div>
+            </div>
+
+          </article>
+        </div><!-- End post list item -->
+
+        <div class="col-xl-4 col-md-6">
+          <article>
+
+            <div class="post-img">
+              <img src="assets/img/blog/blog-3.jpg" alt="" class="img-fluid">
+            </div>
+
+            <p class="post-category">모집</p>
+
+            <h2 class="title">
+              <a href="/board/list">8월 융합 프로젝트 인원 구합니다~~~~~~</a>
+            </h2>
+
+            <div class="d-flex align-items-center">
+              <img src="assets/img/blog/blog-author-3.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
+              <div class="post-meta">
+                <p class="post-author">탱구리</p>
+                <p class="post-date">
+                  <time datetime="2022-01-01">July 22, 2023</time>
+                </p>
+              </div>
+            </div>
+
+          </article>
+        </div><!-- End post list item -->
+
+      </div><!-- End recent posts list -->
+
+    </div>
+  </section><!-- End Recent Blog Posts Section -->
+
+  <!-- ======= Our Team Section ======= -->
+  <section id="team" class="team">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header">
+        <h2>Team Building</h2>
+        <p>전공 별 인원을 모아 최종 성과 공유회 팀을 모집해보자</p>
+      </div>
+
+      <div class="row gy-4">
+
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+          <div class="member">
+            <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
+            <h4>8월 융합 프로젝트</h4>
+            <span>서버개발</span>
+            <div class="social">
+              <a href=""><i class="bi bi-twitter"></i></a>
+              <a href=""><i class="bi bi-facebook"></i></a>
+              <a href=""><i class="bi bi-instagram"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div><!-- End Team Member -->
+
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+          <div class="member">
+            <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
+            <h4>8월 융합 프로젝트</h4>
+            <span>인공지능</span>
+            <div class="social">
+              <a href=""><i class="bi bi-twitter"></i></a>
+              <a href=""><i class="bi bi-facebook"></i></a>
+              <a href=""><i class="bi bi-instagram"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div><!-- End Team Member -->
+
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+          <div class="member">
+            <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
+            <h4>8월 융합 프로젝트</h4>
+            <span>UNITY</span>
+            <div class="social">
+              <a href=""><i class="bi bi-twitter"></i></a>
+              <a href=""><i class="bi bi-facebook"></i></a>
+              <a href=""><i class="bi bi-instagram"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div><!-- End Team Member -->
+
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
+          <div class="member">
+            <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
+            <h4>8월 융합 프로젝트</h4>
+            <span>UNREAL</span>
+            <div class="social">
+              <a href=""><i class="bi bi-twitter"></i></a>
+              <a href=""><i class="bi bi-facebook"></i></a>
+              <a href=""><i class="bi bi-instagram"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div><!-- End Team Member -->
+
+      </div>
+
+    </div>
+
+  </section><!-- End Pricing Section -->
+
+  <!-- ======= Call To Action Section ======= -->
+  <section id="call-to-action" class="call-to-action">
+    <div class="container text-center" data-aos="zoom-out">
+      <a href="https://www.youtube.com/watch?v=hgRJgK1bSB8&list=PLBzg_v6kalxOIVc4nMFeV0ftJDWsu9OzC" class="glightbox play-btn"></a>
+      <h3>Call To Action</h3>
+      <p> 메타버스 아카데미 1기 성과 공유회</p>
+    </div>
+  </section><!-- End Call To Action Section -->
+
+  <!-- ======= Our Services Section ======= -->
+
+  </section><!-- End Our Services Section -->
+
+  <!-- ======= Testimonials Section ======= -->
+  <section id="testimonials" class="testimonials">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header">
+        <h2>강사진 소개</h2>
+        <p>메타버스 아카데미 2기 최고의 강사진을 소개합니다.</p>
+      </div>
+
+      <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
+        <div class="swiper-wrapper">
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="assets/img/testimonials/kim.jpg" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>김진호 강사님</h3>
+                    <h4>서버개발 강사</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i><br>
+                  하루는 24시간이다.<br>
+                  잠은 죽어서 자는 것이다.<br>
+                  지금 아는 것 같으면 착각하는 것이다.<br>
+                  차 막히는 게 두려우면 5시에 나오면 된다.<br>
+                  어려운 건 더 어려운 것으로 해결할 수 있다.<br>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="assets/img/testimonials/ai.png" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>김한호 강사님</h3>
+                    <h4>AI 강사</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i><br>
+                  ▶ 관련 주요 경력<br>
+                  - ㈜에이치소프트 개발 대표('20~현재)<br>
+                  - 삼육대학교 SW중심대학 겸임교수 (~현재)<br>
+                  - NIPA, 중소기업기술개발 평가위원 (~현재)<br>
+                  - ㈜굿게임스튜디오 개발이사('16~'21)<br>
+                  - ㈜네오위즈모바일 개발 ('07~'09)<br>
+                  - ㈜ 엣데이터 개발('05~'07)<br>
+                  <br>
+                  ▶ 강사 한마디<br>
+                  딥러닝 및 데이터 분석 기술을 통하여 보다 나은 메타버스<br>
+                  플랫폼을 만들어 보도록 하겠습니다.<br>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="assets/img/testimonials/3d.png" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>박현상 강사님</h3>
+                    <h4>3D모델링 강사</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i><br>
+                  ▶ 관련 주요 경력<br>
+                  가천대학교 게임영상학과 겸임교수('21~'22)<br>
+                  브릭쓰리 대표('14~현재)<br>
+                  ㈜위메이드 엔터테인먼트 모바일RPG('12~'13)<br>
+                  ㈜스마일게이트 FPS 프로젝트('11~'12)<br>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="assets/img/testimonials/xr.png" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>이영호 강사님</h3>
+                    <h4>XR 강사</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i><br>
+                  ▶ 관련 주요 경력<br>
+                  - 아라XR랩 대표('16~)<br>
+                  - 가천대학교 게임영상학과 겸임교수('21~'22)<br>
+                  - 명지전문대학 소프트웨어콘텐츠학과 겸임교수('17~'18)<br>
+                  - 세종대학교 디지털콘텐츠학과 겸임교수('15~'16)<br>
+                  - 유니티코리아 개발팀 부장('14~'16)<br>
+                  - 넥슨 개발팀('03~'07)<br>
+                  XR 과정 주강사로서 이 과정에 참여하는 학생들에게 자신들이 하고 싶은 목표를 구체화 시킬 수 있고, 기술 및 프로젝트 성공 경험을 갖춰 수료할 수 있도록 함께 노력 할 것입니다.<br>
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+    </div>
+  </section><!-- End Testimonials Section -->
+
+
+
+
+  <!-- ======= Frequently Asked Questions Section ======= -->
+  <section id="faq" class="faq">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row gy-4">
+
+        <div class="col-lg-4">
+          <div class="content px-xl-5">
+            <h3 style="font-style: italic;">자주 묻는 질문 <strong>Questions</strong></h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+
+          <div class="accordion accordion-flush" id="faqlist" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="accordion-item">
+              <h3 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1">
+                  <span class="num">1.</span>
+                  현재 재직중이거나 사업자 등록이 되어 있어도 지원이 가능한가요?
+                </button>
+              </h3>
+              <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                <div class="accordion-body">
+                  미취업자를 우선으로 선발하고 있으나, 메타버스에 대한 열의가 잇는 재직자 또는 사업자도 지원가능합니다.
+                  다만 아래와 같은 경우에는 교육훈련비가 지원되지 않습니다. 만일 해당 내용을 고지하지 않고 교육훈련비 수령이 적발 될 경우 환수 및 퇴소조치되며, 그외 모든 귀책사유는 개인에게 있습니다.
+                  <br>1. 재직자(고용보험 가입자 기준)
+                  <br>2. 개인/법인 사업자
+                  <br>3. 특수형태근로종사자 (프리랜서, 일용직 근로 등)
+                </div>
+              </div>
+            </div><!-- # Faq item-->
+
+            <div class="accordion-item">
+              <h3 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
+                  <span class="num">2.</span>
+                  전공을 중복해서 지원해도 되나요?
+                </button>
+              </h3>
+              <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                <div class="accordion-body">
+                  중복지원은 불가하며, 추후 중복지원이 발견 될 경우 모든 전공 불합격처리가 되오니 이점 유의하시어 신중하게 지원해주시기 바랍니다.
+                </div>
+              </div>
+            </div><!-- # Faq item-->
+
+            <div class="accordion-item">
+              <h3 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3">
+                  <span class="num">3.</span>
+                  다른 청년 지원프로그램에 참여중입니다. 중복으로 수당을 받을 수 있나요?
+                </button>
+              </h3>
+              <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                <div class="accordion-body">
+                  다른 교육 및 훈련을 동반하는 지원 프로그램에 참여시 중복으로 수당은 지급받으실 수 없습니다.
+                  <br>아래와같은 경우에는 미지급 사례이니 참고바랍니다.
+                  <br>-미지급사례
+                  <br>1. 메타버스 아카데미 교육기간과 재직 중 월급을 받는 기간이 중복되는 경우
+                  <br>2. 메타버스 아카데미 교육기간과 휴업급여(산재 등)를 받는 기간이 중복되는 경우 (별도확인 필요)
+                  <br>3. 메타버스 아카데미 교육기간과 명칭에 상관없이 구직활동 지원 목적의 교육 훈련 수당을 받는 기간이 중복되는 경우
+                  <br>4.  ｢메타버스 아카데미｣ 교육훈련비를 지원받을 수 있는 교육 날짜(5.22.~) 와 중앙부처 또는 지방자치단체 등으로부터 구직활동 지원 목적 또는 교육훈련비를 지급받는 교육훈련 날짜와 중복하여 참여할 수 없습니다.
+                </div>
+              </div>
+            </div><!-- # Faq item-->
+
+            <div class="accordion-item">
+              <h3 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-4">
+                  <span class="num">4.</span>
+                  교육 시간은 어떻게 되나요?
+                </button>
+              </h3>
+              <div id="faq-content-4" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                <div class="accordion-body">
+                  선수학습의 경우, 비대면 VOD 학습으로 이루어지며 필요에따라 실시간 수업도 병행될 수 있습니다.
+                  <br>자세한 운영 내용은 선수학습 교육생 선발 이후 안내받으실 수 있습니다.
+                  <br>본 과정의 경우, 모든 교육생이 평일(주5일) 오전 9시 ~ 오후 6시까지 교육이 진행됩니다.
+                  <br>필요에 따라 토요일 특강 및 현직자 멘토링이 있을 수 있습니다.
+                </div>
+              </div>
+            </div><!-- # Faq item-->
+
+            <div class="accordion-item">
+              <h3 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-5">
+                  <span class="num">5.</span>
+                  SW 비전공자 및 개발 무경험자가 따라가기 어려운 커리큘럼인가요?
+                </button>
+              </h3>
+              <div id="faq-content-5" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                <div class="accordion-body">
+                  해당 과정은 서비스 개발자 (XR,네트워크,AI)와 콘텐츠 창작자로 구분되어있어 비전공자지만 개발 의지가 있다면 서비스 개발자 과정을 지원해도 무관할 만큼 기초부터 학습할 수 있습니다.
+
+                  하지만 본인만의 창작 아이디어가 있다면 콘텐츠 창작자 (3D모델링, 콘텐츠기획)로 지원하시길 추천드립니다.
+                </div>
+              </div>
+            </div><!-- # Faq item-->
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Frequently Asked Questions Section -->
+
+
+
+  <!-- ======= About Us Section ======= -->
+  <section id="about" class="about">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header">
+        <h2>About Us</h2>
+        <p><h5>메타버스(Metaverse)는 초월을 의미하는 ‘메타(Meta)’와 세계를 의미하는 ‘유니버스(Universe)’의 합성어로 공상과학 소설에서 처음 등장</h5>
+        <br>- 美 기술연구단체(ASF)는 ｢메타버스 로드맵(‘07)｣을 통해 메타버스를 가상세계, 거울세계, 증강현실, 라이프로깅 등 4가지 요소로 구분
+
+        <br>-美 SF소설 ‘스노우 크래시(Snow Crash)’에서 ‘3차원 가상세계’라는 의미로 사용(’92)</p>
+      </div>
+
+      <div class="row gy-4">
+        <div class="col-lg-6">
+          <h3>메타버스는 가상과 현실의 융합하여 문화적 가치를 창출</h3>
+          <img src="assets/img/meta.png" class="img-fluid rounded-4 mb-4" alt="">
+          <img src="assets/img/meta2.png" class="img-fluid rounded-4 mb-4" alt="">
+          <p>1. 가상/현실 융합 공간 : 가상과 현실이 융합되며 그 경계가 사라진 공간</p>
+          <p>2. 상호작용 : 세계관을 공유하는 다양한 주체 간 소통 또는 현상 및 경험 공유</p>
+          <p>3. 가치창출 : 경제 , 사회 , 문화적 활동을 통해 새로운 가치의 생산과 소비 발생</p>
+        </div>
+        <div class="col-lg-6">
+          <div class="content ps-0 ps-lg-5">
+            <p class="fst-italic">
+              메타버스의 주요 유형
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle-fill"></i> 사회관계 형성(SNS)</li>
+              <li><i class="bi bi-check-circle-fill"></i> 디지털 자산 거래(Market)</li>
+              <li><i class="bi bi-check-circle-fill"></i> 원격협업 지원(Assistant) 유형</li>
+            </ul>
+            <p>
+              자기주도의 콘텐츠 및 서비스 창작 및 개발학습과 단계별 프로젝트 수행,전문가 평가 및 고도화, 비즈니스 모델 발굴 실습, 공통교육을 통한 다양한 산업 견해 확장 등
+            </p>
+            <p>
+              서로 다른 생각과 기술을 함께 공유하고 협업하는 융합프로젝트 수행 중심의 프로그램 운영
+            </p>
+            <p>
+              서버개발, Unity, Unreal, 3D 모델링, 자율전공, 콘텐츠 기획 여러가지 기술의 집합
+            </p>
+
+            <div class="position-relative mt-4">
+              <img src="assets/img/about-2.jpg" class="img-fluid rounded-4" alt="">
+              <a href="https://www.youtube.com/watch?v=MzdozEsyBwc&pp=ygUY66mU7YOA67KE7Iqk7JWE7Lm0642w66-4" class="glightbox play-btn"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End About Us Section -->
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-12 footer-info">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <span>MetaMate</span>
+        </a>
+        <p>MetaMate 는 메타버스 아카데미 교육생들의 커뮤니케이션 및 프로젝트 인원 모집, 간단한 메타버스 아카데미의 정보를 담은 사이트 입니다. 이 사이트로 여러분들의 소통이 더욱 원활해졌으면 좋겠습니다. TEAM _ Go-On-That</p>
+        <div class="social-links d-flex mt-4">
+          <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Useful Links</h4>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About us</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#recent-posts">Board</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Our Services</h4>
+        <ul>
+          <li>서버개발</li>
+          <li>3D모델링</li>
+          <li>콘텐츠기획</li>
+          <li>Unity</li>
+          <li>Unreal</li>
+          <li>XR</li>
+          <li>자율전공</li>
+          <li>AI</li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+        <h4>Contact Us</h4>
+        <p>
+          C-106 강의장 <br>
+          메타버스 아카데미<br>
+          TEAM : GO-ON-THAT<br><br>
+          <strong>Phone:</strong> +82 010-5518-2290<br>
+          <strong>Email:</strong> pyunghun120@gmail.com<br>
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <div class="copyright">
+      &copy; Copyright <strong><span>MetaMate</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/impact-bootstrap-business-website-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+
+</footer><!-- End Footer -->
+<!-- End Footer -->
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

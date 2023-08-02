@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<thlogic xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+  <attr sel="#header-nav-home" th:href="@{/}" th:text="'Home'" />
+  <attr sel="#header-nav-admin-members" th:href="@{/admin/members}" th:text="'Member'" />
+  <attr sel="#login" sec:authorize="!isAuthenticated()" th:href="@{/auth/login}" />
+  <attr sel="#logout" sec:authorize="isAuthenticated()" th:href="@{/auth/logout}" />
+</thlogic>

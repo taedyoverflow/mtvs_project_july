@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Impact Bootstrap Template - Blog Details</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <!-- Favicons -->
+  <link href="/assets/img/favicon.png" rel="icon">
+  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Impact
+  * Updated: May 30 2023 with Bootstrap v5.3.0
+  * Template URL: https://bootstrapmade.com/impact-bootstrap-business-website-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+<section id="topbar" class="topbar d-flex align-items-center">
+  <div class="container d-flex justify-content-center justify-content-md-between">
+    <div class="contact-info d-flex align-items-center" th:if="${user != null}">
+      <i class="bi bi-envelope d-flex align-items-center"><a href="/messages/received"><span>받은 쪽지함</span></a></i>
+      <i class="bi bi-person d-flex align-items-center ms-4"><span th:text="${user.major}"></span><span th:text="${user.nickname}"></span><span>님 환영합니다.</span></i>
+    </div>
+
+    <div class="contact-info d-flex align-items-center" th:if="${user == null}">
+      <i class="bi bi-person-add d-flex align-items-center"><a href="/auth/join"><span>회원가입 신청</span></a></i>
+    </div>
+  </div>
+</section><!-- End Top Bar -->
+
+<header id="header" class="header d-flex align-items-center">
+
+  <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+    <a href="/" class="logo d-flex align-items-center">
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <!-- <img src="assets/img/logo.png" alt=""> -->
+      <h1>MetaMate<span>.</span></h1>
+    </a>
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/board/list">Blog</a></li>
+        <li><a href="/#team">Team</a></li>
+        <li><a href="/#about">About</a></li>
+        <li class="dropdown"><a href="#"><span>Easy Menu</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li class="dropdown"><a href="/board/list"><span>Blog</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+              <ul>
+                <li><a href="/board/list">All Blog list</a></li>
+              </ul>
+            </li>
+            <li><a href="/#team">Team</a></li>
+            <li><a href="/#about">About</a></li>
+          </ul>
+        </li>
+        <li th:if="${user != null}"><a href="/auth/edit">My Page</a></li>
+      </ul>
+    </nav><!-- .navbar -->
+
+    <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+    <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+  </div>
+</header><!-- End Header -->
+<!-- End Header -->
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('');">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2>받은 쪽지함</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <div class="container">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/messages/received">받은 쪽지함</a></li>
+          <li><a href="/messages/sendForm">쪽지 보내기</a></li>
+          <li><a href="/messages/sent">보낸 쪽지함</a></li>
+        </ol>
+      </div>
+    </nav>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- ======= Blog Section ======= -->
+  <section id="blog" class="blog">
+    <div class="container" data-aos="fade-up">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <div class="row gy-4 posts-list">
+        <div class="col-xl-4 col-md-6" th:each="message : ${receivedMessage}">
+          <article>
+            <div class="post-img">
+              <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
+            </div>
+            <p class="post-category" th:text="${message.createdAt}" style="color: #4c0ab8"></p>
+            <h2 class="title">
+              <p th:text=" ${message.title}" style="color: #008374"></p>
+            </h2>
+            <div class="d-flex align-items-center">
+              <div class="post-meta">
+                <p class="post-author-list"><i class="bi bi-person" th:text="|보낸 사람: ${message.senderNickname}|"></i></p>
+                <p class="post-author-list"><i class="bi bi-chat" th:text="|쪽지 내용: ${message.content}|"></i></p>
+                <button type="button" class="btn btn-warning" th:onclick="'deleteReceivedMessage(\'' + ${message.id} + '\')'">삭제</button>
+              </div>
+            </div>
+          </article>
+        </div><!-- End post list item -->
+      </div><!-- End blog posts list -->
+    </div>
+  </section><!-- End Blog Section -->
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-5 col-md-12 footer-info">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <span>MetaMate</span>
+        </a>
+        <p>MetaMate 는 메타버스 아카데미 교육생들의 커뮤니케이션 및 프로젝트 인원 모집, 간단한 메타버스 아카데미의 정보를 담은 사이트 입니다. 이 사이트로 여러분들의 소통이 더욱 원활해졌으면 좋겠습니다. TEAM _ Go-On-That</p>
+        <div class="social-links d-flex mt-4">
+          <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Useful Links</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/#about">About us</a></li>
+          <li><a href="/#team">Team</a></li>
+          <li><a href="/board/list">Board</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-2 col-6 footer-links">
+        <h4>Our Services</h4>
+        <ul>
+          <li>서버개발</li>
+          <li>3D모델링</li>
+          <li>콘텐츠기획</li>
+          <li>Unity</li>
+          <li>Unreal</li>
+          <li>XR</li>
+          <li>자율전공</li>
+          <li>AI</li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+        <h4>Contact Us</h4>
+        <p>
+          C-106 강의장 <br>
+          메타버스 아카데미<br>
+          TEAM : GO-ON-THAT<br><br>
+          <strong>Phone:</strong> +82 010-5518-2290<br>
+          <strong>Email:</strong> pyunghun120@gmail.com<br>
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <div class="copyright">
+      &copy; Copyright <strong><span>MetaMate</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/impact-bootstrap-business-website-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </div>
+
+</footer><!-- End Footer -->
+<!-- End Footer -->
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/aos/aos.js"></script>
+<script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/assets/js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function deleteReceivedMessage(id) {
+    var csrfToken = $("meta[name='_csrf']").attr("content");
+    var url = "/api/messages/received/" + id;
+
+    console.log(id);
+    $.ajax({
+      url: url,
+      type: "DELETE",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+      },
+      success: function(data, status, xhr) {
+        // 수정 성공 시 처리
+        console.log(data);
+        alert("메세지 삭제가 완료되었습니다.");
+        location.reload();
+        // 댓글 목록을 다시 로딩하는 등의 작업 수행
+      },
+      error: function(data) {
+        // 삭제 실패 시 처리
+        console.log(data);
+        alert("권한이 없습니다.");
+      }
+    });
+  }
+</script>
+</body>
+</html>

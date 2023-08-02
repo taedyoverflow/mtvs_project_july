@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<thlogic>
+  <attr sel="#layout-head" th:replace="layouts/layout-head :: common_head(~{::title}, (~{::link} ?: ~{}))" />
+  <attr sel="#layout-header" th:replace="layouts/layout-header :: header" />
+  <attr sel="#layout-left-aside" th:replace="layouts/layout-left-aside :: aside" />
+  <attr sel="#layout-main" th:replace="layouts/layout-main-table :: common_main_table('권한 관리', (~{::#jsgrid-admin-members} ?: ~{}))" />
+  <attr sel="#layout-right-aside" th:replace="layouts/layout-right-aside :: aside" />
+  <attr sel="#layout-footer" th:replace="layouts/layout-footer :: footer" />
+  <attr sel="#layout-scripts" th:replace="layouts/layout-scripts :: script" />
+
+  <attr sel="#jsgrid-javascript" th:utext='|
+   $(function () {
+    const csrfHeader = "${_csrf.headerName}";
+    const csrfToken = "${_csrf.token}";
+
+    $("#jsgrid-admin-members").jsGrid({
+      width: "100%",
+
+      // editing 옵션을 true로 설정
+      editing: true,
+      inserting: false,
+      sorting: true,
+      paging: true,
+      autoload: true,
+      pageSize: 15,
+      pageButtonCount: 5,
+      deleteConfirm: "선택하신 계정을 삭제하시겠습니까?",
+
+      fields: [
+        { name: "email", title: "이메일", type: "text", width: 120 },
+        { name: "role", title: "권한", type: "text", width: 100 },
+        { name: "name", title: "이름", type: "text", width: 60 },
+        { name: "nickname", title: "닉네임", type: "text", width: 60 },
+        { type: "control" }
+      ],
+
+      controller: {
+        loadData: (filter) => {
+          return $.ajax({
+            type: "GET",
+            url: "/api/admin/members",
+            data: filter,
+            dataType: "json"
+          });
+        },
+        insertItem: $.noop,
+
+        // 수정된 행 데이터를 서버로 전송하는 updateItem 메서드 수정
+        updateItem: (item) => {
+          return $.ajax({
+            type: "POST",
+            url: "/api/admin/members",
+            data: item,
+            beforeSend: (xhr) => xhr.setRequestHeader(csrfHeader, csrfToken)
+          })
+          .done(function() {
+            // 업데이트 성공 시 페이지 새로고침
+            location.reload();
+          })
+          .fail(function() {
+            // 업데이트 실패 시 에러 처리
+            alert("업데이트에 실패하였습니다.");
+          });
+        },
+
+        deleteItem: (item) => {
+          return $.ajax({
+            type: "DELETE",
+            url: "/api/admin/members",
+            data: item,
+            beforeSend: (xhr) => xhr.setRequestHeader(csrfHeader, csrfToken)
+          });
+        },
+      }
+    });
+  });
+  |'/>
+</thlogic>
